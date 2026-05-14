@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ollivier Development AB – Ledarskap som växer inifrån</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+:root{
+  /* Distinct greens */
+  --g-deep:    #1a4d2e;   /* deep forest */
+  --g-rich:    #2d6a4f;   /* rich green */
+  --g-mid:     #3a8a5c;   /* mid green */
+  --g-bright:  #52b788;   /* bright accent */
+  --g-light:   #95d5b2;   /* light accent */
+  --g-pale:    #d8f3dc;   /* pale tint */
+
+  --cream:     #faf7f0;
+  --warm-white:#f5f0e8;
+  --birch:     #ede8da;
+  --bark:      #7a6248;
+  --stone:     #b5a990;
+  --charcoal:  #1e1e1e;
+  --white:     #ffffff;
+
+  --font-d: 'Cormorant Garamond', Georgia, serif;
+  --font-b: 'Outfit', sans-serif;
+
+  --max-w: 1140px;
+  --pad-x: clamp(1.4rem, 5vw, 4rem);
+  --pad-y: clamp(4rem, 8vw, 7rem);
+}
+
+body{
+  font-family:var(--font-b);
+  background:var(--cream);
+  color:var(--charcoal);
+  font-weight:300;
+  line-height:1.8;
+  font-size:clamp(0.95rem,1.4vw,1.05rem);
+  overflow-x:hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--g-deep);}
+::-webkit-scrollbar-thumb{background:var(--g-bright);}
+
+/* ══ NAV ══════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.2rem var(--pad-x);
+  transition:background .4s,box-shadow .4s;
+}
+nav.scrolled{
+  background:rgba(26,77,46,0.97);
+  backdrop-filter:blur(12px);
+  box-shadow:0 2px 20px rgba(0,0,0,0.2);
+}
+.nav-logo-wrap{display:flex;align-items:center;gap:0.8rem;text-decoration:none;}
+.nav-logo-svg{width:44px;height:44px;flex-shrink:0;}
+.nav-logo-text{
+  font-family:var(--font-d);font-size:1.05rem;font-weight:400;
+  color:var(--white);letter-spacing:0.04em;line-height:1.2;
+}
+.nav-links{display:flex;gap:1.8rem;list-style:none;}
+.nav-links a{
+  font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:rgba(255,255,255,0.88);text-decoration:none;
+  transition:color .25s;
+}
+.nav-links a:hover{color:var(--g-light);}
+
+/* ══ HERO ══════════════════════════════════════════════ */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;text-align:center;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(160deg,rgba(10,35,18,0.82) 0%,rgba(26,77,46,0.75) 50%,rgba(45,106,79,0.65) 100%),
+    url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1800&q=85') center/cover no-repeat;
+  transform:scale(1.05);
+  transition:transform 9s ease-out;
+}
+.hero-bg.loaded{transform:scale(1);}
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 70%,transparent 30%,rgba(0,0,0,0.25) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  padding:0 var(--pad-x);
+  max-width:880px;
+}
+.hero-badge{
+  display:inline-block;
+  border:1px solid rgba(149,213,178,0.5);
+  color:var(--g-light);
+  font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;
+  padding:0.45rem 1.2rem;border-radius:2px;
+  margin-bottom:2rem;
+  opacity:0;animation:fadeUp 1s 0.2s both;
+}
+.hero h1{
+  font-family:var(--font-d);
+  font-size:clamp(3.2rem,7.5vw,6rem);
+  font-weight:300;color:var(--white);
+  line-height:1.05;letter-spacing:-0.01em;
+  margin-bottom:1.4rem;
+  opacity:0;animation:fadeUp 1s 0.45s both;
+  text-shadow:0 2px 20px rgba(0,0,0,0.3);
+}
+.hero h1 em{font-style:italic;color:var(--g-light);}
+.hero-rule{
+  width:52px;height:1px;background:var(--g-bright);
+  margin:0 auto 1.4rem;
+  opacity:0;animation:fadeUp 1s 0.65s both;
+}
+.hero-sub{
+  font-family:var(--font-d);
+  font-size:clamp(1.15rem,2.2vw,1.5rem);
+  font-style:italic;
+  color:rgba(255,255,255,0.92);
+  margin-bottom:0.7rem;
+  opacity:0;animation:fadeUp 1s 0.8s both;
+  text-shadow:0 1px 8px rgba(0,0,0,0.4);
+}
+.hero-sub2{
+  font-family:var(--font-d);
+  font-size:clamp(1rem,1.8vw,1.25rem);
+  font-style:italic;
+  color:rgba(255,255,255,0.75);
+  margin-bottom:2.6rem;
+  opacity:0;animation:fadeUp 1s 0.95s both;
+  text-shadow:0 1px 8px rgba(0,0,0,0.4);
+}
+.hero-cta{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp 1s 1.1s both;
+}
+.btn{
+  display:inline-block;
+  padding:0.9rem 2.2rem;
+  font-family:var(--font-b);font-size:0.78rem;
+  letter-spacing:0.14em;text-transform:uppercase;
+  text-decoration:none;border-radius:2px;
+  transition:all .3s;cursor:pointer;border:none;
+}
+.btn-outline{
+  border:1.5px solid rgba(255,255,255,0.7);
+  color:var(--white);background:transparent;
+}
+.btn-outline:hover{background:rgba(255,255,255,0.12);border-color:var(--white);}
+.btn-solid{
+  background:var(--g-bright);color:var(--g-deep);font-weight:500;
+}
+.btn-solid:hover{background:var(--g-light);}
+.btn-green{background:var(--g-rich);color:var(--white);}
+.btn-green:hover{background:var(--g-deep);}
+
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  z-index:2;display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  color:rgba(255,255,255,0.5);font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;
+  animation:scrollBounce 2.5s ease infinite;
+}
+.hero-scroll::before{
+  content:'';display:block;width:1px;height:36px;
+  background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.4));
+}
+
+/* ══ SECTIONS ══════════════════════════════════════════ */
+section{padding:var(--pad-y) var(--pad-x);}
+.inner{max-width:var(--max-w);margin:0 auto;}
+
+.lbl{
+  font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--g-rich);margin-bottom:0.8rem;font-weight:400;
+}
+.ttl{
+  font-family:var(--font-d);
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:300;color:var(--g-deep);
+  line-height:1.15;margin-bottom:1.2rem;
+}
+.ttl em{font-style:italic;color:var(--g-rich);}
+.rule{width:44px;height:2px;background:var(--g-bright);margin-bottom:1.8rem;}
+.lead{
+  font-size:clamp(1rem,1.6vw,1.1rem);
+  color:#333;max-width:680px;margin-bottom:1.2rem;
+}
+
+/* ══ OM MIG ════════════════════════════════════════════ */
+.about{background:var(--white);}
+.about-grid{
+  display:grid;grid-template-columns:5fr 7fr;
+  gap:clamp(2.5rem,6vw,5.5rem);align-items:center;
+}
+.about-img-wrap{position:relative;}
+.about-img-wrap img{
+  width:100%;aspect-ratio:3/4;object-fit:cover;display:block;
+}
+.about-img-wrap::after{
+  content:'';position:absolute;
+  inset:-1.2rem 1.2rem 1.2rem -1.2rem;
+  border:1.5px solid var(--g-pale);z-index:-1;
+}
+.pull-quote{
+  font-family:var(--font-d);
+  font-size:clamp(1.2rem,2.2vw,1.55rem);
+  font-style:italic;color:var(--g-rich);
+  border-left:3px solid var(--g-bright);
+  padding-left:1.4rem;
+  margin:1.8rem 0;line-height:1.45;
+}
+
+/* ══ VARFÖR ════════════════════════════════════════════ */
+.why{
+  background:var(--g-deep);
+  position:relative;overflow:hidden;
+}
+.why::before{
+  content:'';position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1400&q=60') center/cover;
+  opacity:0.07;
+}
+.why .lbl{color:var(--g-light);}
+.why .ttl{color:var(--white);}
+.why .ttl em{color:var(--g-light);}
+.why .rule{background:var(--g-bright);}
+.why .lead{color:rgba(255,255,255,0.85);max-width:720px;}
+.why-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(195px,1fr));
+  gap:1.5px;margin-top:3rem;
+  background:rgba(255,255,255,0.08);
+}
+.why-card{
+  background:rgba(26,77,46,0.6);
+  padding:2rem 1.6rem;
+  backdrop-filter:blur(4px);
+  transition:background .3s;
+  border-top:2px solid transparent;
+}
+.why-card:hover{background:rgba(45,106,79,0.7);border-top-color:var(--g-bright);}
+.why-card-n{
+  font-family:var(--font-d);font-size:2.5rem;
+  font-weight:300;color:var(--g-bright);
+  line-height:1;margin-bottom:0.7rem;
+}
+.why-card h3{
+  font-family:var(--font-d);font-size:1.05rem;font-weight:400;
+  color:var(--white);margin-bottom:0.5rem;
+}
+.why-card p{font-size:0.88rem;color:rgba(255,255,255,0.72);line-height:1.65;margin:0;}
+
+/* ══ TJÄNSTER – CARDS WITH EXPAND ═════════════════════ */
+.services{background:var(--g-pale);}
+.services .ttl{color:var(--g-deep);}
+.svc-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:1.5rem;margin-top:2.5rem;
+}
+.svc-card{
+  background:var(--white);
+  border-radius:2px;
+  border-bottom:3px solid var(--g-bright);
+  padding:2.2rem 1.8rem 1.8rem;
+  transition:transform .3s,box-shadow .3s;
+  display:flex;flex-direction:column;
+}
+.svc-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(45,106,79,0.12);}
+.svc-icon{
+  width:42px;height:42px;
+  background:var(--g-pale);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;margin-bottom:1rem;
+}
+.svc-card h3{
+  font-family:var(--font-d);font-size:1.2rem;font-weight:400;
+  color:var(--g-deep);margin-bottom:0.7rem;
+}
+.svc-card p{font-size:0.9rem;color:#444;line-height:1.7;flex:1;}
+.svc-more{
+  display:inline-block;margin-top:1.2rem;
+  font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--g-rich);text-decoration:none;
+  border-bottom:1px solid var(--g-bright);padding-bottom:2px;
+  transition:color .25s,border-color .25s;
+}
+.svc-more:hover{color:var(--g-deep);border-color:var(--g-deep);}
+
+/* expand panel */
+.svc-expand{
+  display:none;
+  background:var(--g-pale);
+  border:1px solid var(--g-light);
+  border-radius:2px;
+  padding:1.8rem;
+  margin-top:0.5rem;
+  font-size:0.92rem;color:#333;line-height:1.75;
+  grid-column:1/-1;
+}
+.svc-expand.open{display:block;}
+.svc-expand h4{
+  font-family:var(--font-d);font-size:1.15rem;
+  color:var(--g-deep);margin-bottom:0.7rem;font-weight:400;
+}
+.svc-expand ul{padding-left:1.2rem;margin-top:0.5rem;}
+.svc-expand li{margin-bottom:0.4rem;}
+.close-btn{
+  margin-top:1rem;font-size:0.72rem;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--g-rich);
+  background:none;border:none;cursor:pointer;
+  border-bottom:1px solid var(--g-bright);padding-bottom:2px;
+}
+
+/* ══ UTBILDNINGAR ══════════════════════════════════════ */
+.training{background:var(--white);}
+.training .ttl{color:var(--g-deep);}
+
+.training-intro{
+  max-width:720px;
+  color:#333;font-size:0.97rem;margin-bottom:3rem;
+}
+.course-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2rem;
+}
+.course-card{
+  border:1.5px solid var(--g-pale);
+  border-radius:3px;overflow:hidden;
+  transition:box-shadow .3s,border-color .3s;
+}
+.course-card:hover{
+  box-shadow:0 8px 32px rgba(45,106,79,0.13);
+  border-color:var(--g-bright);
+}
+.course-header{
+  background:var(--g-rich);
+  padding:1.4rem 1.6rem;
+  display:flex;align-items:center;gap:0.8rem;
+}
+.course-tag{
+  background:rgba(255,255,255,0.15);
+  color:var(--white);
+  font-size:0.68rem;letter-spacing:0.14em;
+  text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:2px;
+}
+.course-header h3{
+  font-family:var(--font-d);font-size:1.2rem;font-weight:400;
+  color:var(--white);flex:1;
+}
+.course-body{padding:1.4rem 1.6rem;}
+.course-meta{
+  display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1rem;
+}
+.meta-chip{
+  font-size:0.75rem;background:var(--g-pale);
+  color:var(--g-deep);padding:0.25rem 0.7rem;
+  border-radius:12px;font-weight:400;
+}
+.course-body p{font-size:0.88rem;color:#444;line-height:1.7;margin-bottom:1.2rem;}
+.course-body details summary{
+  font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--g-rich);cursor:pointer;margin-bottom:0.7rem;
+  list-style:none;
+}
+.course-body details summary::after{content:' ↓';}
+.course-body details[open] summary::after{content:' ↑';}
+.course-body details p{font-size:0.85rem;color:#555;margin:0 0 0.8rem;}
+
+/* Signup form embedded in card */
+.signup-form{
+  background:var(--g-pale);padding:1.2rem 1.4rem;
+  border-top:1px solid var(--g-light);
+  margin:-0px -0px 0;
+}
+.signup-form p{
+  font-size:0.78rem;font-weight:500;color:var(--g-deep);
+  text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.8rem;
+}
+.signup-fields{display:flex;flex-direction:column;gap:0.5rem;}
+.signup-fields input{
+  border:1px solid var(--g-light);border-radius:2px;
+  background:var(--white);padding:0.55rem 0.8rem;
+  font-family:var(--font-b);font-size:0.9rem;font-weight:300;
+  color:var(--charcoal);outline:none;width:100%;
+  transition:border-color .25s;
+}
+.signup-fields input:focus{border-color:var(--g-rich);}
+.signup-fields input::placeholder{color:#aaa;}
+.signup-fields button{
+  margin-top:0.3rem;padding:0.65rem 1rem;
+  background:var(--g-rich);color:var(--white);
+  border:none;border-radius:2px;cursor:pointer;
+  font-family:var(--font-b);font-size:0.78rem;
+  letter-spacing:0.12em;text-transform:uppercase;
+  transition:background .25s;
+}
+.signup-fields button:hover{background:var(--g-deep);}
+.signup-confirm{
+  display:none;padding:0.7rem;
+  background:var(--g-bright);color:var(--g-deep);
+  font-size:0.85rem;font-weight:500;
+  text-align:center;border-radius:2px;
+  margin-top:0.5rem;
+}
+
+/* ══ FILOSOFI + CITAT ══════════════════════════════════ */
+.philosophy{
+  background:var(--g-deep);
+  position:relative;overflow:hidden;
+}
+.philosophy::before{
+  content:'';position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=70') center/cover;
+  opacity:0.12;
+}
+.philosophy .lbl{color:var(--g-light);}
+.philosophy .ttl{color:var(--white);}
+.philosophy .ttl em{color:var(--g-light);}
+.philosophy .rule{background:var(--g-bright);}
+
+.phil-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(2.5rem,6vw,5rem);align-items:start;
+  margin-top:2.5rem;
+}
+.pillars{display:flex;flex-direction:column;gap:1.8rem;}
+.pillar{
+  display:flex;gap:1.2rem;align-items:flex-start;
+  padding:1.4rem;
+  background:rgba(255,255,255,0.06);
+  border-left:3px solid var(--g-bright);
+  transition:background .3s;
+}
+.pillar:hover{background:rgba(255,255,255,0.1);}
+.pillar-icon{font-size:1.4rem;flex-shrink:0;margin-top:0.1rem;}
+.pillar h4{
+  font-family:var(--font-d);font-size:1.05rem;font-weight:400;
+  color:var(--white);margin-bottom:0.3rem;
+}
+.pillar p{font-size:0.88rem;color:rgba(255,255,255,0.75);margin:0;line-height:1.65;}
+
+/* Big quote on right */
+.phil-quote-side{
+  display:flex;flex-direction:column;gap:2rem;
+}
+.big-quote{
+  font-family:var(--font-d);
+  font-size:clamp(1.5rem,3vw,2.3rem);
+  font-style:italic;font-weight:300;
+  color:var(--white);
+  line-height:1.3;
+  border-left:3px solid var(--g-bright);
+  padding-left:1.6rem;
+  text-shadow:0 1px 10px rgba(0,0,0,0.3);
+}
+.big-quote cite{
+  display:block;margin-top:0.8rem;
+  font-family:var(--font-b);font-size:0.72rem;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--g-light);font-style:normal;
+}
+.fjall-img{
+  width:100%;aspect-ratio:16/9;object-fit:cover;
+  border-top:3px solid var(--g-bright);
+  opacity:0.85;
+}
+
+/* ══ VÄRDEN – ALLA VINNER ══════════════════════════════ */
+.values{background:var(--g-rich);}
+.values .lbl{color:rgba(255,255,255,0.65);}
+.values .ttl{color:var(--white);}
+.values .ttl em{color:var(--g-light);}
+.values .rule{background:var(--g-light);}
+.values .lead{color:rgba(255,255,255,0.88);}
+
+.val-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:1px;margin-top:2.8rem;
+  background:rgba(255,255,255,0.12);
+}
+.val-cell{
+  background:var(--g-rich);
+  padding:2rem 1.4rem;text-align:center;
+  transition:background .3s;cursor:default;
+}
+.val-cell:hover{background:var(--g-mid);}
+.val-cell-icon{font-size:2rem;margin-bottom:0.7rem;}
+.val-cell h4{
+  font-family:var(--font-d);font-size:1rem;font-weight:400;
+  color:var(--white);margin-bottom:0.3rem;
+}
+.val-cell p{font-size:0.82rem;color:rgba(255,255,255,0.72);margin:0;line-height:1.55;}
+
+/* ══ SEA BREAK ═════════════════════════════════════════ */
+.sea-break{
+  height:300px;position:relative;overflow:hidden;
+}
+.sea-break::before{
+  content:'';position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80') center 55%/cover no-repeat;
+}
+.sea-break::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to right,
+    rgba(26,77,46,0.35) 0%,
+    rgba(82,183,136,0.15) 50%,
+    rgba(26,77,46,0.35) 100%);
+}
+
+/* ══ KONTAKT ═══════════════════════════════════════════ */
+.contact{background:var(--birch);}
+.contact .ttl{color:var(--g-deep);}
+.contact-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(2.5rem,6vw,5rem);align-items:start;
+}
+.contact-form-wrap{display:flex;flex-direction:column;gap:1.2rem;}
+.fld{display:flex;flex-direction:column;gap:0.35rem;}
+.fld label{
+  font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--bark);font-weight:400;
+}
+.fld input,.fld textarea,.fld select{
+  border:none;border-bottom:1.5px solid var(--stone);
+  background:transparent;padding:0.65rem 0;
+  font-family:var(--font-b);font-size:0.97rem;font-weight:300;
+  color:var(--charcoal);outline:none;resize:none;
+  transition:border-color .3s;
+  appearance:none;
+}
+.fld input:focus,.fld textarea:focus,.fld select:focus{
+  border-color:var(--g-rich);
+}
+.contact-info h3{
+  font-family:var(--font-d);font-size:1.8rem;font-weight:300;
+  color:var(--g-deep);margin-bottom:1rem;
+}
+.contact-info p{color:#444;margin-bottom:1.5rem;}
+.c-detail{
+  display:flex;align-items:center;gap:0.9rem;
+  margin-bottom:0.9rem;font-size:0.9rem;color:#333;
+}
+.c-detail-icon{
+  width:36px;height:36px;
+  background:var(--g-pale);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--g-rich);font-size:1rem;flex-shrink:0;
+}
+.c-detail a{color:var(--g-rich);text-decoration:none;}
+.c-detail a:hover{text-decoration:underline;}
+
+/* ══ FOOTER ════════════════════════════════════════════ */
+footer{
+  background:var(--g-deep);
+  padding:2.2rem var(--pad-x);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+}
+.footer-brand{display:flex;align-items:center;gap:0.8rem;}
+.footer-brand svg{width:38px;height:38px;opacity:0.85;}
+.footer-name{
+  font-family:var(--font-d);font-size:1rem;font-weight:300;
+  color:rgba(255,255,255,0.85);
+}
+footer p{font-size:0.75rem;color:rgba(255,255,255,0.4);letter-spacing:0.06em;}
+
+/* ══ ANIMATIONS ════════════════════════════════════════ */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(22px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes scrollBounce{
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(6px);}
+}
+.reveal{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ══ RESPONSIVE ════════════════════════════════════════ */
+@media(max-width:820px){
+  .about-grid,.phil-grid,.contact-grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .about-img-wrap{order:-1;}
+  footer{flex-direction:column;text-align:center;}
+}
+@media(max-width:520px){
+  .why-cards{grid-template-columns:1fr;}
+  .val-grid{grid-template-columns:1fr 1fr;}
+  .course-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ OLIVE TREE SVG LOGO (reusable) ═════════════════ -->
+<svg style="display:none" id="olive-tree-def">
+  <symbol id="olive-tree" viewBox="0 0 120 140">
+    <!-- Long deep roots -->
+    <g stroke="#5a8a4a" stroke-linecap="round" fill="none" stroke-width="1.8" opacity="0.85">
+      <path d="M60 95 Q55 110 42 128"/>
+      <path d="M60 95 Q65 112 70 130"/>
+      <path d="M60 95 Q50 115 35 120"/>
+      <path d="M60 95 Q70 118 82 126"/>
+      <path d="M55 105 Q45 115 30 118"/>
+      <path d="M65 105 Q72 115 85 115"/>
+      <path d="M50 112 Q40 120 28 130"/>
+      <path d="M70 112 Q80 122 90 132"/>
+      <path d="M58 118 Q52 126 48 136"/>
+      <path d="M62 118 Q68 126 72 136"/>
+    </g>
+    <!-- Trunk – organic, slightly curved -->
+    <path d="M57 95 Q54 80 56 65 Q57 52 55 38" stroke="#6b4f2a" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M63 95 Q66 80 64 65 Q63 52 65 38" stroke="#7a5c34" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <!-- Branches – wild, spreading -->
+    <g stroke="#5a7a3a" stroke-linecap="round" fill="none" stroke-width="2">
+      <path d="M56 65 Q44 58 30 50"/>
+      <path d="M56 65 Q50 50 40 38"/>
+      <path d="M58 55 Q65 42 72 28"/>
+      <path d="M60 48 Q70 38 80 30"/>
+      <path d="M60 48 Q68 50 80 46"/>
+      <path d="M55 60 Q42 55 28 58"/>
+      <path d="M63 60 Q74 54 88 52"/>
+      <path d="M58 38 Q56 28 50 18"/>
+      <path d="M62 38 Q66 26 74 16"/>
+      <!-- thinner twigs -->
+      <path d="M30 50 Q22 44 16 40" stroke-width="1.2"/>
+      <path d="M40 38 Q34 30 28 24" stroke-width="1.2"/>
+      <path d="M80 46 Q88 40 94 36" stroke-width="1.2"/>
+      <path d="M72 28 Q76 18 80 12" stroke-width="1.2"/>
+      <path d="M50 18 Q46 10 42 6" stroke-width="1.2"/>
+    </g>
+    <!-- Foliage clusters – organic ellipses & circles -->
+    <g fill="#2d6a4f" opacity="0.9">
+      <ellipse cx="28" cy="48" rx="11" ry="8" transform="rotate(-20 28 48)"/>
+      <ellipse cx="16" cy="39" rx="8" ry="6" transform="rotate(10 16 39)"/>
+      <ellipse cx="38" cy="35" rx="10" ry="7" transform="rotate(-30 38 35)"/>
+      <ellipse cx="26" cy="23" rx="8" ry="6" transform="rotate(-10 26 23)"/>
+      <ellipse cx="52" cy="16" rx="9" ry="6" transform="rotate(5 52 16)"/>
+      <ellipse cx="42" cy="6" rx="7" ry="5" transform="rotate(15 42 6)"/>
+      <ellipse cx="72" cy="14" rx="8" ry="6" transform="rotate(-15 72 14)"/>
+      <ellipse cx="80" cy="11" rx="7" ry="5" transform="rotate(20 80 11)"/>
+      <ellipse cx="80" cy="29" rx="10" ry="7" transform="rotate(25 80 29)"/>
+      <ellipse cx="93" cy="34" rx="8" ry="6" transform="rotate(-10 93 34)"/>
+      <ellipse cx="87" cy="50" rx="9" ry="7" transform="rotate(15 87 50)"/>
+      <ellipse cx="60" cy="44" rx="11" ry="8" transform="rotate(5 60 44)"/>
+    </g>
+    <!-- lighter green highlights -->
+    <g fill="#52b788" opacity="0.55">
+      <ellipse cx="29" cy="46" rx="5" ry="3.5" transform="rotate(-25 29 46)"/>
+      <ellipse cx="39" cy="34" rx="4.5" ry="3" transform="rotate(-35 39 34)"/>
+      <ellipse cx="53" cy="15" rx="5" ry="3" transform="rotate(8 53 15)"/>
+      <ellipse cx="80" cy="28" rx="5" ry="3.5" transform="rotate(20 80 28)"/>
+      <ellipse cx="87" cy="49" rx="4.5" ry="3" transform="rotate(12 87 49)"/>
+      <ellipse cx="59" cy="43" rx="5.5" ry="3.5" transform="rotate(8 59 43)"/>
+    </g>
+    <!-- Tiny olives -->
+    <g fill="#1a4d2e" opacity="0.7">
+      <ellipse cx="32" cy="52" rx="2.2" ry="3.2" transform="rotate(-10 32 52)"/>
+      <ellipse cx="44" cy="40" rx="2" ry="3" transform="rotate(15 44 40)"/>
+      <ellipse cx="78" cy="34" rx="2.2" ry="3" transform="rotate(-20 78 34)"/>
+      <ellipse cx="85" cy="54" rx="2" ry="3.2" transform="rotate(10 85 54)"/>
+      <ellipse cx="55" cy="20" rx="1.8" ry="2.8" transform="rotate(-5 55 20)"/>
+    </g>
+  </symbol>
+</svg>
+
+<!-- ══ NAV ══════════════════════════════════════════════ -->
+<nav id="mainNav">
+  <a href="#top" class="nav-logo-wrap">
+    <svg class="nav-logo-svg"><use href="#olive-tree"/></svg>
+    <span class="nav-logo-text">Ollivier<br>Development AB</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#om-mig">Om mig</a></li>
+    <li><a href="#tjanster">Tjänster</a></li>
+    <li><a href="#utbildningar">Utbildningar</a></li>
+    <li><a href="#filosofi">Filosofi</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════════════════════ -->
+<section class="hero" id="top">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Ollivier Development AB</div>
+    <h1>Ledarskap som<br><em>växer inifrån</em></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Närvaro är ledarskap. Ledarskap är närvaro.</p>
+    <p class="hero-sub2">Jag stödjer människor i resan att bli den ledare de redan bär inom sig.</p>
+    <div class="hero-cta">
+      <a href="#tjanster" class="btn btn-outline">Vad jag erbjuder</a>
+      <a href="#kontakt" class="btn btn-solid">Ta ett samtal</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Utforska</div>
+</section>
+
+<!-- ══ OM MIG ════════════════════════════════════════════ -->
+<section class="about" id="om-mig">
+  <div class="inner">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <img src="https://images.unsplash.com/photo-1511497584788-876760111969?w=800&q=80"
+             alt="Skog med ljus som filtreras genom träden" loading="lazy"/>
+      </div>
+      <div class="reveal">
+        <p class="lbl">Om mig</p>
+        <h2 class="ttl">Välkommen –<br>jag är <em>Louise Ollivier</em></h2>
+        <div class="rule"></div>
+        <p class="lead">Jag har arbetat i och med organisationer under lång tid – som interim ledare, HR-chef och ledarutvecklare. Jag kliver in där det behövs mest, tar ansvar och bygger kapacitet som stannar kvar när jag lämnar.</p>
+        <p>Det som driver mig handlar om något djupare än roller och uppdrag. Jag tror att det mest kraftfulla ledarskapet föds inifrån. Den ledare som känner sig själv – sin styrka, sina mönster och sin riktning – är den som skapar varaktig förändring runt sig.</p>
+        <div class="pull-quote">
+          "Jag stödjer människor i resan att bli den ledare de redan bär inom sig."
+        </div>
+        <p>Yoga och meditation är inte sidoprojekt – de är en del av hur jag ser på människa, ledarskap och förändring. Precis som olivträdet i min logga: det som syns ovan mark är bara möjligt tack vare det som finns under.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VARFÖR ════════════════════════════════════════════ -->
+<section class="why" id="varfor">
+  <div class="inner">
+    <p class="lbl reveal">Varför det spelar roll</p>
+    <h2 class="ttl reveal">Alla vinner på ett<br><em>autentiskt och resilient ledarskap</em></h2>
+    <div class="rule reveal"></div>
+    <p class="lead reveal">
+      När ledarskapet är förankrat inifrån skapas ringar på vattnet – ut genom organisationen, in i individen. Det handlar inte bara om resultat. Det handlar om en kultur där människor blomstrar och organisationer håller.
+    </p>
+    <div class="why-cards">
+      <div class="why-card reveal">
+        <div class="why-card-n">01</div>
+        <h3>Ledaren själv</h3>
+        <p>Ökad självkännedom, inre stabilitet och förmåga att leda med äkthet – även i pressade situationer.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-n">02</div>
+        <h3>Ledningsgruppen</h3>
+        <p>Bättre samarbete, tydligare riktning och ett gemensamt ledarskap som skapar tillit och framdrift.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-n">03</div>
+        <h3>Grupper & team</h3>
+        <p>Psykologisk trygghet, engagemang och förmåga att hantera förändring utan att tappa sammanhållningen.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-n">04</div>
+        <h3>Individen</h3>
+        <p>Varje medarbetare som möts av ett genuint ledarskap växer – i sin roll och som människa.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-n">05</div>
+        <h3>Organisationen</h3>
+        <p>Starka rötter ger stabilitet i storm. En organisation med resilient ledarskap klarar förändring och skapar hållbara resultat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TJÄNSTER ══════════════════════════════════════════ -->
+<section class="services" id="tjanster">
+  <div class="inner">
+    <p class="lbl reveal">Vad jag erbjuder</p>
+    <h2 class="ttl reveal">Hur jag stödjer<br><em>dig och din organisation</em></h2>
+    <div class="rule reveal"></div>
+    <p class="lead reveal">Klicka på varje tjänst för att läsa mer.</p>
+
+    <div class="svc-grid" id="svcGrid">
+
+      <div class="svc-card reveal" data-id="interim">
+        <div class="svc-icon">🌿</div>
+        <h3>Interim ledarskap</h3>
+        <p>Jag kliver in som ledare när organisationen behöver erfarenhet, stabilitet och handlingskraft – utan lång uppstartstid.</p>
+        <a class="svc-more" href="#" data-target="exp-interim">Läs mer →</a>
+      </div>
+
+      <div class="svc-card reveal" data-id="hr">
+        <div class="svc-icon">🤝</div>
+        <h3>Interim HR-chef</h3>
+        <p>Helhetsgrepp om er HR-funktion – från strategi till operativa frågor, med fokus på det som faktiskt gör skillnad.</p>
+        <a class="svc-more" href="#" data-target="exp-hr">Läs mer →</a>
+      </div>
+
+      <div class="svc-card reveal" data-id="ledarutv">
+        <div class="svc-icon">✨</div>
+        <h3>Ledarutveckling</h3>
+        <p>Individuellt och i grupp. Ledare som vill växa – inte bara i sin roll, utan som människor.</p>
+        <a class="svc-more" href="#" data-target="exp-ledarutv">Läs mer →</a>
+      </div>
+
+      <div class="svc-card reveal" data-id="lgr">
+        <div class="svc-icon">🌱</div>
+        <h3>Ledningsgruppsutveckling</h3>
+        <p>Jag arbetar med ledningsgrupper som vill stärka sin gemensamma kapacitet, tillit och förmåga att leda i förändring.</p>
+        <a class="svc-more" href="#" data-target="exp-lgr">Läs mer →</a>
+      </div>
+
+      <div class="svc-card reveal" data-id="org">
+        <div class="svc-icon">🌳</div>
+        <h3>Grupp- och organisationsutveckling</h3>
+        <p>Stöd i förändring – sammanhållning, kommunikation, kultur och riktning. Med blick för det som pågår under ytan.</p>
+        <a class="svc-more" href="#" data-target="exp-org">Läs mer →</a>
+      </div>
+
+      <!-- Expandable panels -->
+      <div class="svc-expand" id="exp-interim">
+        <h4>Interim ledarskap</h4>
+        <p>Jag tar ansvar för ledarskapet i er organisation när ni befinner er i förändring, rekrytering eller kris. Jag skapar struktur, bygger förtroende och ser till att verksamheten rör sig framåt – med full närvaro och erfarenhet av komplexa organisationsmiljöer.</p>
+        <ul><li>Snabb onboarding och situationsanalys</li><li>Ansvar för team och processer</li><li>Ordnad överlämning och kapacitetsbygge</li></ul>
+        <button class="close-btn" data-close="exp-interim">Stäng ↑</button>
+      </div>
+
+      <div class="svc-expand" id="exp-hr">
+        <h4>Interim HR-chef</h4>
+        <p>Jag tar ett helhetsgrepp om er HR-funktion – från policy och strategi till det operativa vardagsarbetet. Med fokus på människan, kulturen och det som faktiskt gör skillnad på lång sikt.</p>
+        <ul><li>HR-strategi och kultur</li><li>Arbetsrätt och policy</li><li>Rekrytering, onboarding och offboarding</li><li>Ledar- och medarbetarstöd</li></ul>
+        <button class="close-btn" data-close="exp-hr">Stäng ↑</button>
+      </div>
+
+      <div class="svc-expand" id="exp-ledarutv">
+        <h4>Ledarutveckling – individuellt och i grupp</h4>
+        <p>Jag arbetar med ledare som vill växa inifrån – utforska sina mönster, stärka sin identitet och leda med äkthet. Processerna är trygga, utmanande och förankrade i verkligheten.</p>
+        <ul><li>Individuell ledarcoachning</li><li>Ledarprogram i grupp</li><li>Verktyg från yoga, mindfulness och reflektion</li></ul>
+        <p style="margin-top:0.8rem;"><a href="#utbildningar" style="color:var(--g-rich);">Se även mina utbildningsprogram →</a></p>
+        <button class="close-btn" data-close="exp-ledarutv">Stäng ↑</button>
+      </div>
+
+      <div class="svc-expand" id="exp-lgr">
+        <h4>Ledningsgruppsutveckling</h4>
+        <p>En ledningsgrupp som fungerar väl är grunden för allt. Jag stödjer ledningsgrupper i att bygga förtroende, skärpa sin gemensamma riktning och öka sin förmåga att hantera komplexitet och förändring tillsammans.</p>
+        <ul><li>Analys av gruppens dynamik och kultur</li><li>Workshops och faciliterade dialoger</li><li>Processarbete över tid</li><li>Inklusive verktyg från UGL och resilient ledarskap</li></ul>
+        <button class="close-btn" data-close="exp-lgr">Stäng ↑</button>
+      </div>
+
+      <div class="svc-expand" id="exp-org">
+        <h4>Grupp- och organisationsutveckling</h4>
+        <p>Jag stödjer grupper och organisationer i förändring – oavsett om det handlar om sammanhållning, kommunikation, kultur eller riktning. Med blick för helheten och det som pågår under ytan.</p>
+        <ul><li>Kulturanalys och förändringsledning</li><li>Teamutveckling och workshops</li><li>Processledning i komplexa situationer</li></ul>
+        <button class="close-btn" data-close="exp-org">Stäng ↑</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ UTBILDNINGAR ══════════════════════════════════════ -->
+<section class="training" id="utbildningar">
+  <div class="inner">
+    <p class="lbl reveal">Utbildningar</p>
+    <h2 class="ttl reveal">Kommande<br><em>utbildningar & program</em></h2>
+    <div class="rule reveal"></div>
+    <p class="training-intro reveal">
+      Jag håller certifierade och egenutvecklade utbildningar inom ledarskap – med fokus på grupp, individ och organisation. Alla program kombinerar evidensbaserade metoder med ett genuint intresse för inre tillväxt.
+    </p>
+
+    <div class="course-grid">
+
+      <!-- UGL -->
+      <div class="course-card reveal">
+        <div class="course-header">
+          <div>
+            <div class="course-tag">Certifierad</div>
+            <h3>UGL – Utveckling av Grupp och Ledare</h3>
+          </div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta">
+            <span class="meta-chip">📅 Höst 2025</span>
+            <span class="meta-chip">⏱ 4,5 dagar</span>
+            <span class="meta-chip">👥 Max 12 deltagare</span>
+          </div>
+          <p>UGL är ett av Sveriges mest använda ledarutvecklingsprogram. Kursen fokuserar på hur grupper och individer fungerar tillsammans – och ger ledare konkreta verktyg för att förstå och utveckla sin förmåga att leda.</p>
+          <details>
+            <summary>Vad ingår?</summary>
+            <p>Teoretiska modeller varvas med praktiska övningar och självreflektion. Deltagarna får insikt i sin egen ledarstil, gruppens dynamik och hur man skapar psykologisk trygghet. Kursen ges i internatformat.</p>
+          </details>
+        </div>
+        <div class="signup-form">
+          <p>Anmäl intresse</p>
+          <div class="signup-fields">
+            <input type="text" placeholder="Ditt namn" class="sf-name"/>
+            <input type="email" placeholder="E-postadress" class="sf-email"/>
+            <input type="text" placeholder="Organisation" class="sf-org"/>
+            <button onclick="handleSignup(this,'UGL')">Anmäl mig →</button>
+          </div>
+          <div class="signup-confirm">Tack! Vi hör av oss inom kort.</div>
+        </div>
+      </div>
+
+      <!-- UL -->
+      <div class="course-card reveal">
+        <div class="course-header" style="background:var(--g-deep);">
+          <div>
+            <div class="course-tag">Certifierad</div>
+            <h3>UL – Uppdragsbaserat Lärande</h3>
+          </div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta">
+            <span class="meta-chip">📅 Vår 2026</span>
+            <span class="meta-chip">⏱ Modulbaserad</span>
+            <span class="meta-chip">👥 Max 10 deltagare</span>
+          </div>
+          <p>UL är ett fördjupningsprogram som bygger vidare på UGL och fokuserar på ledaren i sitt verkliga uppdrag. Deltagarna arbetar med konkreta utmaningar från sin organisation och får stöd att omsätta insikter till handling.</p>
+          <details>
+            <summary>Vad ingår?</summary>
+            <p>Programmet genomförs i moduler om 2 dagar med mellanliggande uppdrag. Fokus på ledaridentitet, feedback, konflikt och förändring. Kräver genomförd UGL eller motsvarande.</p>
+          </details>
+        </div>
+        <div class="signup-form">
+          <p>Anmäl intresse</p>
+          <div class="signup-fields">
+            <input type="text" placeholder="Ditt namn" class="sf-name"/>
+            <input type="email" placeholder="E-postadress" class="sf-email"/>
+            <input type="text" placeholder="Organisation" class="sf-org"/>
+            <button onclick="handleSignup(this,'UL')">Anmäl mig →</button>
+          </div>
+          <div class="signup-confirm">Tack! Vi hör av oss inom kort.</div>
+        </div>
+      </div>
+
+      <!-- Resilient Ledarskap -->
+      <div class="course-card reveal">
+        <div class="course-header" style="background:var(--g-mid);">
+          <div>
+            <div class="course-tag">Eget program</div>
+            <h3>Resilient Ledarskap</h3>
+          </div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta">
+            <span class="meta-chip">📅 Höst 2025</span>
+            <span class="meta-chip">⏱ 3 dagar</span>
+            <span class="meta-chip">👥 Max 14 deltagare</span>
+          </div>
+          <p>Ett program för ledare som vill stärka sin förmåga att hålla – inombords och utåt – i en värld av ständig förändring. Kombinerar forskning om resiliens med praktik från mindfulness och yoga.</p>
+          <details>
+            <summary>Vad ingår?</summary>
+            <p>Deltagarna lär sig känna igen sina stressmönster, bygga inre resurser och skapa vanor som stärker hållbarhet. Programmet varvar teori, kroppsorienterade övningar, dialog och reflektion.</p>
+          </details>
+        </div>
+        <div class="signup-form">
+          <p>Anmäl intresse</p>
+          <div class="signup-fields">
+            <input type="text" placeholder="Ditt namn" class="sf-name"/>
+            <input type="email" placeholder="E-postadress" class="sf-email"/>
+            <input type="text" placeholder="Organisation" class="sf-org"/>
+            <button onclick="handleSignup(this,'Resilient Ledarskap')">Anmäl mig →</button>
+          </div>
+          <div class="signup-confirm">Tack! Vi hör av oss inom kort.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FILOSOFI + CITAT (merged) ════════════════════════ -->
+<section class="philosophy" id="filosofi">
+  <div class="inner">
+    <p class="lbl reveal">Min filosofi</p>
+    <h2 class="ttl reveal">Ledarskap med <em>rötter</em></h2>
+    <div class="rule reveal"></div>
+
+    <div class="phil-grid">
+      <div class="pillars">
+        <p style="color:rgba(255,255,255,0.82);margin-bottom:1.5rem;" class="reveal">
+          Jag arbetar utifrån övertygelsen att varaktig förändring alltid börjar inifrån. Jag lyssnar först – försöker förstå vad som verkligen pågår, inte bara det som syns på ytan. Sedan arbetar vi tillsammans mot det ni faktiskt vill uppnå.
+        </p>
+        <div class="pillar reveal">
+          <div class="pillar-icon">🌱</div>
+          <div>
+            <h4>Närvaro</h4>
+            <p>Jag är genuint intresserad av dig, din situation och din organisation. Inte av att sälja in nästa steg.</p>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-icon">⚓</div>
+          <div>
+            <h4>Förankring</h4>
+            <p>Allt vi gör ska landa i verkligheten. Insikter utan handling förändrar ingenting.</p>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-icon">🤝</div>
+          <div>
+            <h4>Tillit</h4>
+            <p>Jag tror på din förmåga. Min roll är att hjälpa dig hitta och använda den.</p>
+          </div>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-icon">🧘</div>
+          <div>
+            <h4>Inre tillväxt</h4>
+            <p>Yoga, meditation och djup reflektion är redskap för ett ledarskap som håller – i och utanför organisationen.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phil-quote-side">
+        <blockquote class="big-quote reveal">
+          "Det handlar inte om att bli någon annan. Det handlar om att bli mer av den du redan är."
+          <cite>– Louise Ollivier</cite>
+        </blockquote>
+        <blockquote class="big-quote reveal" style="font-size:clamp(1.2rem,2.3vw,1.8rem);">
+          "Rötterna syns sällan – men de är allt."
+          <cite>– Ollivier Development AB</cite>
+        </blockquote>
+        <img
+          src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=900&q=80"
+          alt="Fjällmiljö om vintern"
+          class="fjall-img reveal"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VÄRDEN ════════════════════════════════════════════ -->
+<section class="values">
+  <div class="inner">
+    <p class="lbl reveal">Ringar på vattnet</p>
+    <h2 class="ttl reveal">Autentiskt ledarskap skapar<br><em>förändring på alla nivåer</em></h2>
+    <div class="rule reveal"></div>
+    <p class="lead reveal">
+      Starka rötter ger stabilitet i storm. Förändring som börjar inifrån sprider sig ut i hela organisationen.
+    </p>
+    <div class="val-grid">
+      <div class="val-cell reveal">
+        <div class="val-cell-icon">🌱</div>
+        <h4>Ledaren</h4>
+        <p>Inre klarhet och autentisk styrka</p>
+      </div>
+      <div class="val-cell reveal">
+        <div class="val-cell-icon">🤝</div>
+        <h4>Ledningsgruppen</h4>
+        <p>Tillit, riktning och gemensam kraft</p>
+      </div>
+      <div class="val-cell reveal">
+        <div class="val-cell-icon">🌿</div>
+        <h4>Grupper & team</h4>
+        <p>Engagemang och psykologisk trygghet</p>
+      </div>
+      <div class="val-cell reveal">
+        <div class="val-cell-icon">✨</div>
+        <h4>Individen</h4>
+        <p>Personlig tillväxt och meningsfullhet</p>
+      </div>
+      <div class="val-cell reveal">
+        <div class="val-cell-icon">🌳</div>
+        <h4>Organisationen</h4>
+        <p>Resiliens och varaktiga resultat</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HAV ════════════════════════════════════════════════ -->
+<div class="sea-break"></div>
+
+<!-- ══ KONTAKT ══════════════════════════════════════════ -->
+<section class="contact" id="kontakt">
+  <div class="inner">
+    <div class="contact-grid">
+      <div class="reveal">
+        <p class="lbl">Ta nästa steg</p>
+        <h2 class="ttl">Redo att utforska<br><em>vad vi kan åstadkomma?</em></h2>
+        <div class="rule"></div>
+        <p>Är du nyfiken på vad vi kan åstadkomma tillsammans – oavsett om det gäller ett interim uppdrag, ledarutveckling, utbildning eller något du ännu inte riktigt satt ord på?</p>
+        <p style="margin-bottom:2rem;">Låt oss ta ett samtal. Utan prestige och utan agenda.</p>
+
+        <div class="c-detail">
+          <div class="c-detail-icon">✉</div>
+          <div>
+            <a href="mailto:louise@ollivierdevelopment.se">louise@ollivierdevelopment.se</a><br>
+            <a href="mailto:info@ollivierdevelopment.se" style="font-size:0.85rem;color:#666;">info@ollivierdevelopment.se</a>
+          </div>
+        </div>
+        <div class="c-detail">
+          <div class="c-detail-icon">☎</div>
+          <span>[+46 xx xxx xx xx]</span>
+        </div>
+        <div class="c-detail">
+          <div class="c-detail-icon" style="font-size:0.75rem;font-weight:500;">in</div>
+          <a href="#" style="color:var(--g-rich);">LinkedIn – Louise Ollivier</a>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap reveal">
+        <div class="fld">
+          <label for="c-name">Ditt namn</label>
+          <input type="text" id="c-name" placeholder="Förnamn Efternamn"/>
+        </div>
+        <div class="fld">
+          <label for="c-email">E-post</label>
+          <input type="email" id="c-email" placeholder="din@epost.se"/>
+        </div>
+        <div class="fld">
+          <label for="c-org">Organisation</label>
+          <input type="text" id="c-org" placeholder="Ditt företag"/>
+        </div>
+        <div class="fld">
+          <label for="c-subject">Ämne</label>
+          <select id="c-subject">
+            <option value="">Välj ämne…</option>
+            <option>Interim ledarskap</option>
+            <option>Interim HR-chef</option>
+            <option>Ledarutveckling</option>
+            <option>Ledningsgruppsutveckling</option>
+            <option>Utbildning (UGL / UL / Resilient Ledarskap)</option>
+            <option>Annat</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="c-msg">Berätta kort om vad du söker</label>
+          <textarea id="c-msg" rows="4" placeholder="Vad är det du behöver stöd i?"></textarea>
+        </div>
+        <div style="margin-top:0.5rem;">
+          <button class="btn btn-green" onclick="this.textContent='Tack! Jag hör av mig.'">Skicka meddelande →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-brand">
+    <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+      <use href="#olive-tree"/>
+    </svg>
+    <div>
+      <div class="footer-name">Ollivier Development AB</div>
+      <p style="font-size:0.72rem;color:rgba(255,255,255,0.45);margin:0;">
+        louise@ollivierdevelopment.se
+      </p>
+    </div>
+  </div>
+  <p>© 2025 Ollivier Development AB · Org.nr [xxxxxx-xxxx]</p>
+</footer>
+
+<!-- ══ SCRIPTS ════════════════════════════════════════════ -->
+<script>
+// Nav scroll behaviour
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+// Force scrolled style immediately if already scrolled
+if (window.scrollY > 50) nav.classList.add('scrolled');
+
+// Hero bg entrance
+window.addEventListener('load', () => {
+  document.getElementById('heroBg').classList.add('loaded');
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const siblings = [...(entry.target.parentElement?.querySelectorAll('.reveal') || [])];
+      const idx = siblings.indexOf(entry.target);
+      setTimeout(() => entry.target.classList.add('visible'), idx * 75);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => revealObserver.observe(el));
+
+// Service expand / collapse
+document.querySelectorAll('.svc-more').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const targetId = link.getAttribute('data-target');
+    const panel = document.getElementById(targetId);
+    const isOpen = panel.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.svc-expand').forEach(p => p.classList.remove('open'));
+    // Open this one if it wasn't open
+    if (!isOpen) {
+      panel.classList.add('open');
+      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+  });
+});
+document.querySelectorAll('.close-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.getAttribute('data-close');
+    document.getElementById(id).classList.remove('open');
+  });
+});
+
+// Training signup
+function handleSignup(btn, courseName) {
+  const card = btn.closest('.course-card');
+  const name = card.querySelector('.sf-name').value.trim();
+  const email = card.querySelector('.sf-email').value.trim();
+  if (!name || !email) {
+    btn.textContent = 'Fyll i namn och e-post';
+    setTimeout(() => btn.textContent = 'Anmäl mig →', 2500);
+    return;
+  }
+  // In production: POST to backend. Here we show confirmation.
+  card.querySelector('.signup-confirm').style.display = 'block';
+  card.querySelector('.signup-fields').style.opacity = '0.4';
+  card.querySelector('.signup-fields').style.pointerEvents = 'none';
+  console.log(`Anmälan: ${courseName} | ${name} | ${email}`);
+}
+</script>
+</body>
+</html>
