@@ -1217,16 +1217,33 @@ function handleSignup(btn, courseName) {
   const card = btn.closest('.course-card');
   const name = card.querySelector('.sf-name').value.trim();
   const email = card.querySelector('.sf-email').value.trim();
+  const org = card.querySelector('.sf-org').value.trim();
+
   if (!name || !email) {
     btn.textContent = 'Fyll i namn och e-post';
     setTimeout(() => btn.textContent = 'Anmäl mig →', 2500);
     return;
   }
-  // In production: POST to backend. Here we show confirmation.
-  card.querySelector('.signup-confirm').style.display = 'block';
-  card.querySelector('.signup-fields').style.opacity = '0.4';
-  card.querySelector('.signup-fields').style.pointerEvents = 'none';
-  console.log(`Anmälan: ${courseName} | ${name} | ${email}`);
+
+  // Create email with prefilled information
+  const recipientEmail = 'louise@ollivierdevelopment.se';
+  const subject = `Anmälan: ${courseName}`;
+  const body = `Hej Louise,
+
+Jag är intresserad av att anmäla mig till: ${courseName}
+
+Mina uppgifter:
+Namn: ${name}
+E-post: ${email}
+Organisation: ${org || '(ej angiven)'}
+
+Jag öppnar fram till att höra från dig!
+
+Vänliga hälsningar`;
+
+  // Open email client with prefilled data
+  const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoLink;
 }
 </script>
 </body>
